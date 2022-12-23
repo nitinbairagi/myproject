@@ -26,6 +26,9 @@ const dataSlice = createSlice({
     addData(state, action) {
       state.data.push(action.payload);
     },
+    deleData(state, action) {
+      state.data.shift(action.payload);
+    },
   },
 });
 

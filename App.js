@@ -15,77 +15,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 const bottomTab = createBottomTabNavigator();
 const App = () => {
-  // const authenticated = useSelector(state => state.auth.isAunthenticated);
-  // console.log(authenticated);
-  const [user, setuser] = useState('');
-  const [isLoggedin, setisLoggedin] = useState(false);
-  useEffect(() => {
-    setisLoggedin(true);
-    const getuser = async () => {
-      const res = await AsyncStorage.getItem('userdata');
-      setuser(JSON.parse(res));
-      setisLoggedin(false);
-    };
-    getuser();
-  }, []);
-  // console.log(!user);
-  if (isLoggedin) {
-    return (
-      <ActivityIndicator
-        color={'black'}
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}></ActivityIndicator>
-    );
-  }
   return (
     <Provider store={Store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={!user ? 'Login' : 'Home'}>
-          <Stack.Screen
-            name="Home"
-            options={{
-              header: ({navigation}) => {
-                return (
-                  <View
-                    style={{
-                      height: 50,
-                      marginRight: 15,
-                      marginLeft: 15,
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      flexDirection: 'row',
-                    }}>
-                    <Text
-                      onPress={() => {
-                        navigation.goBack();
-                      }}
-                      style={{fontSize: 18, fontWeight: 'bold'}}>
-                      GoBack
-                    </Text>
-                    <Text
-                      onPress={() => {
-                        navigation.navigate('List');
-                      }}
-                      style={{fontSize: 18, fontWeight: 'bold'}}>
-                      ListItem
-                    </Text>
-                  </View>
-                  // console.log(navigation);
-                );
-              },
-            }}
-            component={BottomTab}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Login"
-            component={Login}
-          />
-          <Stack.Screen name="List" component={List} />
-          <Stack.Screen name="SignUp" component={Register} />
+        <Stack.Navigator initialRouteName={'Home'}>
+          <Stack.Screen name="Home" component={BottomTab} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -96,7 +30,6 @@ const BottomTab = () => {
   return (
     <bottomTab.Navigator screenOptions={{headerShown: false}}>
       <bottomTab.Screen name="Home" component={Home} />
-      <bottomTab.Screen name="setting" component={Setting} />
     </bottomTab.Navigator>
   );
 };
